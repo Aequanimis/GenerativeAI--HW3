@@ -1,6 +1,7 @@
 """Math agent that solves questions using tools in a ReAct loop."""
 
 import json
+import time
 
 from dotenv import load_dotenv
 from pydantic_ai import Agent
@@ -12,7 +13,7 @@ load_dotenv()
 #   "google-gla:gemini-2.5-flash"       (needs GOOGLE_API_KEY)
 #   "openai:gpt-4o-mini"                (needs OPENAI_API_KEY)
 #   "anthropic:claude-sonnet-4-6"    (needs ANTHROPIC_API_KEY)
-MODEL = "google-gla:gemini-2.5-flash"
+MODEL = "google-gla:gemini-2.5-flash-lite"
 
 agent = Agent(
     MODEL,
@@ -90,6 +91,10 @@ def main():
 
         print(f"\n**Answer:** {result.output}\n")
         print("---\n")
+
+        if i < len(questions):
+            print("Waiting 20 seconds before the next question to reduce API pressure...")
+            time.sleep(20)
 
 
 if __name__ == "__main__":
